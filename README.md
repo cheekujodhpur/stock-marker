@@ -1,2 +1,2 @@
-# stock-marker
+# Stock Marker
 My analyst for BSE
