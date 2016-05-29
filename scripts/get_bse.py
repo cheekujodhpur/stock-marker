@@ -12,7 +12,24 @@ res.raise_for_status()
 
 # parsing webpage
 webpage = BeautifulSoup(res.text, "lxml")
-bse_span = webpage.select('#Bse_Prc_tick')[0]
-bse_value = bse_span.getText().strip()
 
-print bse_value
+features = {}
+
+# get interesting features
+features['value']       = webpage.select('#Bse_Prc_tick')[0].getText().strip()
+features['volume']      = webpage.select('#bse_volume')[0].getText().strip()
+features['vwap']        = webpage.select('#b_vwap_val')[0].getText().strip()
+features['pclose']      = webpage.select('#b_prevclose')[0].getText().strip()
+features['buyqt']       = webpage.select('#b_total_buy_qty')[0].getText().strip()
+features['sellqt']      = webpage.select('#b_total_sell_qty')[0].getText().strip()
+features['openp']       = webpage.select('#b_open')[0].getText().strip()
+features['tlow']        = webpage.select('#b_low_sh')[0].getText().strip()
+features['thigh']       = webpage.select('#b_high_sh')[0].getText().strip()
+features['52low']       = webpage.select('#b_52low')[0].getText().strip()
+features['52high']      = webpage.select('#b_52high')[0].getText().strip()
+
+# clean up
+for feature in features:
+    features[feature] = float(features[feature].replace(',',''))
+
+print features
