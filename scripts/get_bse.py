@@ -15,21 +15,21 @@ webpage = BeautifulSoup(res.text, "lxml")
 
 features = {}
 
+# define evaluation function
+_webselect = (lambda x,y:webpage.select(y[x])[0].getText().strip())
+_value = (lambda x,y: float(_webselect(x,y).replace(',','')) if x in y else 'N/A')
+
 # get interesting features
-features['value']       = webpage.select('#Bse_Prc_tick')[0].getText().strip()
-features['volume']      = webpage.select('#bse_volume')[0].getText().strip()
-features['vwap']        = webpage.select('#b_vwap_val')[0].getText().strip()
-features['pclose']      = webpage.select('#b_prevclose')[0].getText().strip()
-features['buyqt']       = webpage.select('#b_total_buy_qty')[0].getText().strip()
-features['sellqt']      = webpage.select('#b_total_sell_qty')[0].getText().strip()
-features['openp']       = webpage.select('#b_open')[0].getText().strip()
-features['tlow']        = webpage.select('#b_low_sh')[0].getText().strip()
-features['thigh']       = webpage.select('#b_high_sh')[0].getText().strip()
-features['52low']       = webpage.select('#b_52low')[0].getText().strip()
-features['52high']      = webpage.select('#b_52high')[0].getText().strip()
+features['price']       = '#Bse_Prc_tick'
+features['volume']      = '#bse_volume'
+features['vwap']        = '#b_vwap_val'
+features['pclose']      = '#b_prevclose'
+features['buyqt']       = '#b_total_buy_qty'
+features['sellqt']      = '#b_total_sell_qty'
+features['openp']       = '#b_open'
+features['tlow']        = '#b_low_sh'
+features['thigh']       = '#b_high_sh'
+features['52low']       = '#b_52low'
+features['52high']      = '#b_52high'
 
-# clean up
-for feature in features:
-    features[feature] = float(features[feature].replace(',',''))
-
-print features
+print _value('price',features)
